@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ProfApiConfig(AppConfig):
+class WebApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'prof_api'
+    name = 'web_api'

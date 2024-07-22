@@ -1,5 +1,4 @@
 import os
-from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import default_storage
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -17,6 +16,8 @@ from .models import Navigation, Widget, Content, NewsContent, OtherContent, Navi
 from .serializer import NavigationSerializer, WidgetSerializer, WidgetChildrenSerializer, NavigationChildrenSerializer
 from datetime import datetime
 
+#Вьюсет на модель Navigation. При использовании метода patch или delete изменения отправляются в NavigationHistory.
+#В случае если у Navigation имеются дети среди navigation у которых navigation_id = id удаляемого родите, они также рекурсивно удаляются.
 class NavigationView(viewsets.ModelViewSet):
     queryset = Navigation.objects.all()
     serializer_class = NavigationSerializer
@@ -88,6 +89,7 @@ class NavigationView(viewsets.ModelViewSet):
     def perform_derstroy(self, instanse):
         instanse.delete()
 
+#Вывод Navigations с детьми из рядов navigations. Работает рекурсивно и предполагает любой уровень вложенностей.
 class NavigationChildrenAllView(APIView):
     serializer_class = NavigationChildrenSerializer
 
@@ -103,6 +105,7 @@ class NavigationChildrenAllView(APIView):
         serializer = self.serializer_class(data, many=True)
         return Response(serializer.data)
 
+#Вывод детей Navigation у которых navigation_id = id родителя
 class NavigationChildrenView(APIView):
     serializer_class = NavigationSerializer
     
@@ -116,6 +119,7 @@ class NavigationChildrenView(APIView):
             serializer = self.serializer_class(data, many=True)
             return Response(serializer.data)
 
+#Вьюсет на модель Widget. При использовании метода patch или delete изменения отправляются в WidgetHistory
 class WidgetView(viewsets.ModelViewSet):
     queryset = Widget.objects.all()
     serializer_class = WidgetSerializer
@@ -164,20 +168,22 @@ class WidgetView(viewsets.ModelViewSet):
     def perform_derstroy(self, instanse):
         instanse.delete()
     
+#Вывод Widget с доечерними элементами, а именно с контентом
 class WidgetChildrenView(APIView):
     serializer_class = WidgetChildrenSerializer
 
     def get(self, request, *args, **kwargs):
         data = Widget.objects.get(id=kwargs['id'], language_key=request.query_params.get('language_key'))
         return Response(self.serializer_class(data).data)
-    
+
+#Вывод Widgets определенного Navigation    
 class NavigationWidgetsView(APIView):
     serializer_class = WidgetChildrenSerializer
 
     def get(self, request, *args, **kwargs):
         data = Widget.objects.filter(navigation_id=kwargs['id'], language_key=request.query_params.get('language_key'))
         return Response(self.serializer_class(data, many=True).data)
-    
+
 class FileUploadView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 

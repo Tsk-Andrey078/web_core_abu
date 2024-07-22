@@ -6,6 +6,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 router = DefaultRouter()
 router.register('navigation-view', NavigationView, basename='navigation-view')
 router.register('widget-view', WidgetView, basename='widget-view')
+
 urlpatterns = [
     path('widget-children/<int:id>', WidgetChildrenView.as_view(), name="widget_children"),
     path('widget/navigation/<int:id>', NavigationWidgetsView.as_view(), name="navigation_widgets"),

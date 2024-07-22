@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'prof_api.apps.ProfApiConfig',
+    'web_api.apps.WebApiConfig',
     'rest_framework',
     'corsheaders',
 ]
@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'prof_web.urls'
+ROOT_URLCONF = 'web_core.urls'
 
 TEMPLATES = [
     {
@@ -80,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'prof_web.wsgi.application'
+WSGI_APPLICATION = 'web_core.wsgi.application'
 
 
 # Database
