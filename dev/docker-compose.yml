@@ -5,10 +5,10 @@ services:
   web:
     build:
       context:
-        ./prof_web
+        ./web_core
     volumes:
-      - ./prof_web:/app
-      - /home/ubuntu/prof_web/dev/prof_web/media:/app/media
+      - ./web_core:/app
+      - /home/ubuntu/web_core/dev/web_core/media:/app/media
     ports:
       - "8000:8000"
   nginx:
@@ -16,7 +16,7 @@ services:
     container_name: nginx2
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /home/ubuntu/prof_web/dev/prof_web/media:/app/media
+      - /home/ubuntu/web_core/dev/web_core/media:/app/media
     ports:
       - "80:80"
     depends_on:
