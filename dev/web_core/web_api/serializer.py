@@ -105,3 +105,31 @@ class NavigationChildrenSerializer(serializers.ModelSerializer):
         if children.exists():
             return NavigationChildrenSerializer(children, many=True).data
         return []
+    
+class NavigationHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NavigationHistory
+        fields = [
+            "idn",
+            "title",
+            "slug",
+            "order",
+            "language_key",
+            "navigation_id",
+            "navigation_type",
+            "change_type",
+            "create_date",
+        ]
+
+class WidgetHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WidgetHistory
+        fields = [
+            "idn",
+            "widget_type",
+            "options",
+            "language_key",
+            "order",
+            "navigation_id",
+            "create_date",
+        ]

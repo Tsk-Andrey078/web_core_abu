@@ -38,6 +38,11 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'web_api.apps.WebApiConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
 ]
 
